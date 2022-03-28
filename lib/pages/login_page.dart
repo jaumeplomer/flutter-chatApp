@@ -1,3 +1,4 @@
+import 'package:chat/services/socket_service.dart';
 import 'package:chat/widgets/boto_blau.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +59,7 @@ class _FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>( context );
+    final socketService = Provider.of<SocketService>( context );
 
     return Container(
       margin: EdgeInsets.only(top: 40),
@@ -87,7 +89,7 @@ class _FormState extends State<_Form> {
               final loginOk = await authService.login(emailCtrl.text.trim(), passCtrl.text.trim());
 
               if ( loginOk ) {
-                //TODO: conectar al socketServer
+                socketService.connect();
                 Navigator.pushReplacementNamed(context, 'usuarios');
               } else {
                 mostrarAlerta(context, 'Login incorrecte', 'Credencials no coinciden');
